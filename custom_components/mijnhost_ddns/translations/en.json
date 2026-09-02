@@ -1,0 +1,60 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to mijn.host",
+        "description": "Keeps one A record at mijn.host pointed at this network's public IPv4 address. The API key is stored inside Home Assistant and can be replaced later via re-authentication.",
+        "data": {
+          "dns_domain": "Domain (as registered at mijn.host)",
+          "record_name": "Record name (e.g. wg or wg.example.nl)",
+          "api_key": "mijn.host API key"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Update mijn.host API key",
+        "description": "The stored API key was rejected by mijn.host. Enter a new key.",
+        "data": {
+          "api_key": "mijn.host API key"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "mijn.host rejected this API key",
+      "cannot_connect": "Could not reach the mijn.host API (check the domain spelling)",
+      "unknown": "Unexpected error — check the Home Assistant logs"
+    },
+    "abort": {
+      "already_configured": "This record is already managed by another entry",
+      "reauth_successful": "API key updated"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DDNS options",
+        "data": {
+          "ip_source": "Public IP lookup service",
+          "custom_ip_url": "Custom lookup URL (used only with 'Custom')",
+          "ttl": "Record TTL",
+          "update_interval": "Check interval"
+        }
+      }
+    },
+    "error": {
+      "custom_url_required": "Enter an https:// URL that returns a bare IPv4 address"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "public_ip": { "name": "Public IP" },
+      "record_ip": { "name": "DNS record IP" },
+      "last_synced": { "name": "Last record update" }
+    },
+    "binary_sensor": {
+      "in_sync": { "name": "Record in sync" }
+    },
+    "button": {
+      "sync_now": { "name": "Check & sync now" }
+    }
+  }
+}
