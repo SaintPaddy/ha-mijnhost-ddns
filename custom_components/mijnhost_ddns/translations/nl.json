@@ -1,0 +1,60 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Verbinden met mijn.host",
+        "description": "Houdt één A-record bij mijn.host gericht op het publieke IPv4-adres van dit netwerk. De API-sleutel wordt in Home Assistant opgeslagen en kan later via herauthenticatie worden vervangen.",
+        "data": {
+          "dns_domain": "Domein (zoals geregistreerd bij mijn.host)",
+          "record_name": "Recordnaam (bijv. wg of wg.voorbeeld.nl)",
+          "api_key": "mijn.host API-sleutel"
+        }
+      },
+      "reauth_confirm": {
+        "title": "mijn.host API-sleutel vervangen",
+        "description": "De opgeslagen API-sleutel is door mijn.host geweigerd. Voer een nieuwe sleutel in.",
+        "data": {
+          "api_key": "mijn.host API-sleutel"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "mijn.host heeft deze API-sleutel geweigerd",
+      "cannot_connect": "Kan de mijn.host API niet bereiken (controleer de domeinnaam)",
+      "unknown": "Onverwachte fout — bekijk de Home Assistant-logboeken"
+    },
+    "abort": {
+      "already_configured": "Dit record wordt al door een andere invoer beheerd",
+      "reauth_successful": "API-sleutel bijgewerkt"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "DDNS-opties",
+        "data": {
+          "ip_source": "Dienst voor publieke IP-opzoeking",
+          "custom_ip_url": "Eigen opzoek-URL (alleen gebruikt bij 'Custom')",
+          "ttl": "Record-TTL",
+          "update_interval": "Controle-interval"
+        }
+      }
+    },
+    "error": {
+      "custom_url_required": "Voer een https://-URL in die een kaal IPv4-adres teruggeeft"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "public_ip": { "name": "Publiek IP" },
+      "record_ip": { "name": "DNS-record IP" },
+      "last_synced": { "name": "Laatste recordupdate" }
+    },
+    "binary_sensor": {
+      "in_sync": { "name": "Record synchroon" }
+    },
+    "button": {
+      "sync_now": { "name": "Nu controleren & synchroniseren" }
+    }
+  }
+}
