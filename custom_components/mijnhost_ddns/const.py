@@ -11,9 +11,13 @@ CONF_UPDATE_INTERVAL = "update_interval"
 CONF_IP_SOURCE = "ip_source"
 CONF_CUSTOM_IP_URL = "custom_ip_url"
 
+CONF_KEY_EXPIRES_ON = "key_expires_on"
+CONF_WARN_DAYS = "warn_days"
+
 DEFAULT_TTL = 300
 DEFAULT_UPDATE_INTERVAL_MINUTES = 5
 DEFAULT_IP_SOURCE = "mullvad"
+DEFAULT_WARN_DAYS = 14
 
 API_BASE = "https://mijn.host/api/v2"
 
