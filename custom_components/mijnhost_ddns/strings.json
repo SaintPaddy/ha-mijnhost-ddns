@@ -16,6 +16,13 @@
         "data": {
           "api_key": "mijn.host API key"
         }
+      },
+      "reconfigure": {
+        "title": "Replace mijn.host API key",
+        "description": "Enter the new API key. Remember to also update the expiry date in the integration options.",
+        "data": {
+          "api_key": "mijn.host API key"
+        }
       }
     },
     "error": {
@@ -25,7 +32,8 @@
     },
     "abort": {
       "already_configured": "This record is already managed by another entry",
-      "reauth_successful": "API key updated"
+      "reauth_successful": "API key updated",
+      "reconfigure_successful": "API key replaced"
     }
   },
   "options": {
@@ -36,7 +44,9 @@
           "ip_source": "Public IP lookup service",
           "custom_ip_url": "Custom lookup URL (used only with 'Custom')",
           "ttl": "Record TTL",
-          "update_interval": "Check interval"
+          "update_interval": "Check interval",
+          "key_expires_on": "API key expiry date (optional)",
+          "warn_days": "Warn this many days before expiry"
         }
       }
     },
@@ -48,13 +58,23 @@
     "sensor": {
       "public_ip": { "name": "Public IP" },
       "record_ip": { "name": "DNS record IP" },
-      "last_synced": { "name": "Last record update" }
+      "record_fqdn": { "name": "Managed record" },
+      "last_synced": { "name": "Last record update" },
+      "last_checked": { "name": "Last checked" },
+      "key_expires": { "name": "API key expires" }
     },
     "binary_sensor": {
-      "in_sync": { "name": "Record in sync" }
+      "in_sync": { "name": "Record in sync" },
+      "key_expiring": { "name": "API key expiring soon" }
     },
     "button": {
       "sync_now": { "name": "Check & sync now" }
+    }
+  },
+  "issues": {
+    "key_expiry": {
+      "title": "mijn.host API key expires soon",
+      "description": "The API key used for {record} expires on {date} ({days} days left). Create a new key in the mijn.host control panel, then replace it via the integration's Reconfigure action (Settings → Devices & Services → mijn.host DDNS → ⋮ → Reconfigure) and update the expiry date in its options."
     }
   }
 }
