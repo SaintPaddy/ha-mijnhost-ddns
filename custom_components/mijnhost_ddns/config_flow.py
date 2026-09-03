@@ -18,6 +18,7 @@ from homeassistant.const import CONF_API_KEY
 from homeassistant.core import callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.selector import (
+    DateSelector,
     NumberSelector,
     NumberSelectorConfig,
     NumberSelectorMode,
@@ -35,12 +36,15 @@ from .const import (
     CONF_CUSTOM_IP_URL,
     CONF_DNS_DOMAIN,
     CONF_IP_SOURCE,
+    CONF_KEY_EXPIRES_ON,
     CONF_RECORD_NAME,
     CONF_TTL,
     CONF_UPDATE_INTERVAL,
+    CONF_WARN_DAYS,
     DEFAULT_IP_SOURCE,
     DEFAULT_TTL,
     DEFAULT_UPDATE_INTERVAL_MINUTES,
+    DEFAULT_WARN_DAYS,
     DOMAIN,
     IP_SOURCE_CUSTOM,
     IP_SOURCES,
@@ -149,6 +153,27 @@ class MijnHostConfigFlow(ConfigFlow, domain=DOMAIN):
             errors=errors,
         )
 
+    async def async_step_reconfigure(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Replace the API key proactively (e.g. before it expires)."""
+        errors: dict[str, str] = {}
+        entry = self._get_reconfigure_entry()
+        if user_input is not None:
+            error = await self._async_validate(
+                entry.data[CONF_DNS_DOMAIN], user_input[CONF_API_KEY]
+            )
+            if error is None:
+                return self.async_update_reload_and_abort(
+                    entry, data_updates={CONF_API_KEY: user_input[CONF_API_KEY]}
+                )
+            errors["base"] = error
+        return self.async_show_form(
+            step_id="reconfigure",
+            data_schema=vol.Schema({vol.Required(CONF_API_KEY): API_KEY_SELECTOR}),
+            errors=errors,
+        )
+
     @staticmethod
     @callback
     def async_get_options_flow(config_entry: ConfigEntry) -> MijnHostOptionsFlow:
@@ -204,6 +229,24 @@ class MijnHostOptionsFlow(OptionsFlow):
                         step=1,
                         mode=NumberSelectorMode.BOX,
                         unit_of_measurement="min",
+                    )
+                ),
+                vol.Optional(
+                    CONF_KEY_EXPIRES_ON,
+                    description={
+                        "suggested_value": options.get(CONF_KEY_EXPIRES_ON)
+                    },
+                ): DateSelector(),
+                vol.Required(
+                    CONF_WARN_DAYS,
+                    default=options.get(CONF_WARN_DAYS, DEFAULT_WARN_DAYS),
+                ): NumberSelector(
+                    NumberSelectorConfig(
+                        min=1,
+                        max=90,
+                        step=1,
+                        mode=NumberSelectorMode.BOX,
+                        unit_of_measurement="d",
                     )
                 ),
             }
