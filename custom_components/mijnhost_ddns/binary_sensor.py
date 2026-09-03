@@ -18,7 +18,12 @@ async def async_setup_entry(
     entry: MijnHostConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    async_add_entities([InSyncBinarySensor(entry.runtime_data)])
+    async_add_entities(
+        [
+            InSyncBinarySensor(entry.runtime_data),
+            KeyExpiringBinarySensor(entry.runtime_data),
+        ]
+    )
 
 
 class InSyncBinarySensor(MijnHostEntity, BinarySensorEntity):
@@ -31,3 +36,15 @@ class InSyncBinarySensor(MijnHostEntity, BinarySensorEntity):
     @property
     def is_on(self) -> bool:
         return self.coordinator.data.in_sync
+
+
+class KeyExpiringBinarySensor(MijnHostEntity, BinarySensorEntity):
+    """On when the API key is within the configured warning window."""
+
+    _attr_translation_key = "key_expiring"
+    _attr_device_class = BinarySensorDeviceClass.PROBLEM
+    suffix = "key_expiring"
+
+    @property
+    def is_on(self) -> bool:
+        return self.coordinator.data.key_expiring
