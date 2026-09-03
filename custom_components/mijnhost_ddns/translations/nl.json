@@ -16,6 +16,13 @@
         "data": {
           "api_key": "mijn.host API-sleutel"
         }
+      },
+      "reconfigure": {
+        "title": "mijn.host API-sleutel vervangen",
+        "description": "Voer de nieuwe API-sleutel in. Vergeet niet ook de vervaldatum in de opties bij te werken.",
+        "data": {
+          "api_key": "mijn.host API-sleutel"
+        }
       }
     },
     "error": {
@@ -25,7 +32,8 @@
     },
     "abort": {
       "already_configured": "Dit record wordt al door een andere invoer beheerd",
-      "reauth_successful": "API-sleutel bijgewerkt"
+      "reauth_successful": "API-sleutel bijgewerkt",
+      "reconfigure_successful": "API-sleutel vervangen"
     }
   },
   "options": {
@@ -36,7 +44,9 @@
           "ip_source": "Dienst voor publieke IP-opzoeking",
           "custom_ip_url": "Eigen opzoek-URL (alleen gebruikt bij 'Custom')",
           "ttl": "Record-TTL",
-          "update_interval": "Controle-interval"
+          "update_interval": "Controle-interval",
+          "key_expires_on": "Vervaldatum API-sleutel (optioneel)",
+          "warn_days": "Waarschuw dit aantal dagen vóór verval"
         }
       }
     },
@@ -48,13 +58,23 @@
     "sensor": {
       "public_ip": { "name": "Publiek IP" },
       "record_ip": { "name": "DNS-record IP" },
-      "last_synced": { "name": "Laatste recordupdate" }
+      "record_fqdn": { "name": "Beheerd record" },
+      "last_synced": { "name": "Laatste recordupdate" },
+      "last_checked": { "name": "Laatste controle" },
+      "key_expires": { "name": "API-sleutel verloopt op" }
     },
     "binary_sensor": {
-      "in_sync": { "name": "Record synchroon" }
+      "in_sync": { "name": "Record synchroon" },
+      "key_expiring": { "name": "API-sleutel verloopt binnenkort" }
     },
     "button": {
       "sync_now": { "name": "Nu controleren & synchroniseren" }
+    }
+  },
+  "issues": {
+    "key_expiry": {
+      "title": "mijn.host API-sleutel verloopt binnenkort",
+      "description": "De API-sleutel voor {record} verloopt op {date} (nog {days} dagen). Maak een nieuwe sleutel aan in het mijn.host-controlepaneel, vervang hem via Herconfigureren (Instellingen → Apparaten & diensten → mijn.host DDNS → ⋮ → Herconfigureren) en werk de vervaldatum bij in de opties."
     }
   }
 }
