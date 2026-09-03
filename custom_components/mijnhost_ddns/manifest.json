@@ -1,12 +1,12 @@
 {
   "domain": "mijnhost_ddns",
   "name": "mijn.host DDNS",
-  "codeowners": ["@SaintPaddy"],
+  "codeowners": ["@dotPaddy"],
   "config_flow": true,
   "documentation": "https://github.com/SaintPaddy/ha-mijnhost-ddns",
   "integration_type": "service",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/SaintPaddy/ha-mijnhost-ddns/issues",
   "requirements": [],
-  "version": "0.1.0"
+  "version": "0.2.0"
 }
