@@ -1,7 +1,6 @@
 {
   "domain": "mijnhost_ddns",
   "name": "mijn.host DDNS",
-  "categories": ["computers_network"],
   "codeowners": ["@SaintPaddy"],
   "config_flow": true,
   "documentation": "https://github.com/SaintPaddy/ha-mijnhost-ddns",
